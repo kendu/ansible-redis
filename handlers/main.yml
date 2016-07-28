@@ -1,0 +1,8 @@
+---
+- name: Restart redis
+  service:
+    name: redis-server
+    state: restarted
+
+- name: Apply overcommit memory
+  command: sysctl vm.overcommit_memory=1

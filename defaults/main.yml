@@ -1,0 +1,8 @@
+---
+redis_repo: ppa:chris-lea/redis-server
+redis_port: 6379
+redis_bind_address: 127.0.0.1
+redis_base_dir: /var/lib/redis
+redis_dump_file: dump.rdb
+redis_config_include_dir: /etc/redis/conf.d
+redis_pid_file: /var/run/redis/redis-server.pid

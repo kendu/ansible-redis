@@ -1,0 +1,40 @@
+---
+- name: Add redis repo
+  apt_repository:
+    repo: "{{ redis_repo }}"
+    state: present
+    update_cache: yes
+    mode: 0644
+
+- name: Install redis_server
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - redis-server
+  notify:
+    - Restart redis
+
+- name: Configure redis
+  template:
+    src: config
+    dest: /etc/redis/redis.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart redis
+
+- name: Make redis conf.d dir
+  file:
+    path: "/etc/redis/conf.d"
+    state: directory
+
+- name: Set overcommit memory
+  lineinfile:
+    dest: "/etc/sysctl.conf"
+    line: "vm.overcommit_memory = 1"
+    state: present
+  notify:
+    - Apply overcommit memory
+    - Restart redis
